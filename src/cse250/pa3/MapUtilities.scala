@@ -37,6 +37,10 @@ object MapUtilities {
     for{
       way <- xml \\ "way"
       nd <- way \ "nd"
+      tag <- way \ "tag" \ "@k"
+      if tag == "tiger:name_base"
+    } yield {
+      ret((nd \ "id".toString)) =
     }
     //print(ways)
     print(ret)
