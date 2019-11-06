@@ -31,26 +31,32 @@ object MapUtilities {
   }
 
   def loadMapInfo(filename: String): mutable.Map[String, mutable.Set[String]] = {
-    val ret = mutable.HashMap[String, mutable.Set[String]]()
+    val ret = mutable.Map[String, mutable.Set[String]]()
     val xml = XML.loadFile(filename)
-
     for{
       way <- xml \\ "way"
-      nd <- way \ "nd"
-      tag <- way \ "tag" \ "@k"
-      if tag == "tiger:name_base"
+      tag <- way \ "tag"
+      ndid <- way \ "nd"
     } yield {
-      ret((nd \ "id".toString)) =
+      val value: String = (tag \ "@v").toString
+      if((tag \ "@k").toString() == "tiger:name_base") {
+        val key: String = (ndid \ "@ref").toString
+        if(!ret.contains(key)){
+          ret(key) = mutable.Set(value)
+        } else {
+          ret(key) += value
+        }
+      }
     }
-    //print(ways)
-    print(ret)
     ret
-
   }
 
   def buildIntersectionGraph(intersectionIDs: mutable.Set[String],
                              nodeToStreetMapping: mutable.Map[String, mutable.Set[String]]): StreetGraph = {
     val streetGraph = new StreetGraph
+
+
+
     streetGraph
   }
 

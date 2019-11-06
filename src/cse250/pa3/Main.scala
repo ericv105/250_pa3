@@ -23,9 +23,9 @@ object Main {
     val intersectionIDs = MapUtilities.loadIntersectionIDs(intersectionNodeXMLFile)
     //print(intersectionIDs)
     val nodeToStreetMapping = MapUtilities.loadMapInfo(mapXMLFile)
-    //print(nodeToStreetMapping)
-    /*val streetGraph = MapUtilities.buildIntersectionGraph(intersectionIDs, nodeToStreetMapping)
-    println(s"${entries(1)} to\n${entries(2)}")
+    print(nodeToStreetMapping)
+    val streetGraph = MapUtilities.buildIntersectionGraph(intersectionIDs, nodeToStreetMapping)
+    /*println(s"${entries(1)} to\n${entries(2)}")
     println(MapUtilities.computeFewestTurns(streetGraph, entries(1), entries(2)))
     println(MapUtilities.computeFewestTurnsList(streetGraph, entries(1), entries(2)))
 
