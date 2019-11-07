@@ -38,7 +38,7 @@ object MapUtilities {
       tag <- way \ "tag"
       ndid <- way \ "nd"
     } yield {
-      val value: String = (tag \ "@v").toString
+      val value: String = (tag \ "@v").toString.toUpperCase()
       if((tag \ "@k").toString() == "tiger:name_base") {
         val key: String = (ndid \ "@ref").toString
         if(!ret.contains(key)){
@@ -55,8 +55,20 @@ object MapUtilities {
                              nodeToStreetMapping: mutable.Map[String, mutable.Set[String]]): StreetGraph = {
     val streetGraph = new StreetGraph
 
-
-
+    for(id <- intersectionIDs){
+      if(nodeToStreetMapping.contains(id) && nodeToStreetMapping(id).size > 1) {
+        //nodeToStreetMapping(id)
+        //streetGraph.insertEdge()
+        val iter = nodeToStreetMapping(id).toArray.combinations(2)
+        while(iter.hasNext){
+          val intersection = iter.next()
+          val street1 = intersection(0)
+          val street2 = intersection(1)
+          streetGraph.insertEdge(street1, street2)
+          streetGraph.insertEdge(street2, street1)
+        }
+      }
+    }
     streetGraph
   }
 
